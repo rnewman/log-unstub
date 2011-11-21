@@ -96,7 +96,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static int v(String tag, String msg) {
-        return println_native(LOG_ID_MAIN, VERBOSE, tag, msg);
+        return 0;
     }
 
     /**
@@ -107,7 +107,7 @@ public final class Log {
      * @param tr An exception to log
      */
     public static int v(String tag, String msg, Throwable tr) {
-        return println_native(LOG_ID_MAIN, VERBOSE, tag, msg + '\n' + getStackTraceString(tr));
+        return 0;
     }
 
     /**
@@ -117,7 +117,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static int d(String tag, String msg) {
-        return println_native(LOG_ID_MAIN, DEBUG, tag, msg);
+        return 0;
     }
 
     /**
@@ -128,7 +128,7 @@ public final class Log {
      * @param tr An exception to log
      */
     public static int d(String tag, String msg, Throwable tr) {
-        return println_native(LOG_ID_MAIN, DEBUG, tag, msg + '\n' + getStackTraceString(tr));
+        return 0;
     }
 
     /**
@@ -138,7 +138,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static int i(String tag, String msg) {
-        return println_native(LOG_ID_MAIN, INFO, tag, msg);
+        return 0;
     }
 
     /**
@@ -149,7 +149,7 @@ public final class Log {
      * @param tr An exception to log
      */
     public static int i(String tag, String msg, Throwable tr) {
-        return println_native(LOG_ID_MAIN, INFO, tag, msg + '\n' + getStackTraceString(tr));
+        return 0;
     }
 
     /**
@@ -159,7 +159,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static int w(String tag, String msg) {
-        return println_native(LOG_ID_MAIN, WARN, tag, msg);
+        return 0;
     }
 
     /**
@@ -170,7 +170,7 @@ public final class Log {
      * @param tr An exception to log
      */
     public static int w(String tag, String msg, Throwable tr) {
-        return println_native(LOG_ID_MAIN, WARN, tag, msg + '\n' + getStackTraceString(tr));
+        return 0;
     }
 
     /**
@@ -191,7 +191,9 @@ public final class Log {
      * @return Whether or not that this is allowed to be logged.
      * @throws IllegalArgumentException is thrown if the tag.length() > 23.
      */
-    public static native boolean isLoggable(String tag, int level);
+    public static boolean isLoggable(String tag, int level) {
+      return false;
+    }
 
     /*
      * Send a {@link #WARN} log message and log the exception.
@@ -200,7 +202,7 @@ public final class Log {
      * @param tr An exception to log
      */
     public static int w(String tag, Throwable tr) {
-        return println_native(LOG_ID_MAIN, WARN, tag, getStackTraceString(tr));
+        return 0;
     }
 
     /**
@@ -210,7 +212,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static int e(String tag, String msg) {
-        return println_native(LOG_ID_MAIN, ERROR, tag, msg);
+        return 0;
     }
 
     /**
@@ -221,7 +223,7 @@ public final class Log {
      * @param tr An exception to log
      */
     public static int e(String tag, String msg, Throwable tr) {
-        return println_native(LOG_ID_MAIN, ERROR, tag, msg + '\n' + getStackTraceString(tr));
+        return 0;
     }
 
     /**
@@ -255,9 +257,7 @@ public final class Log {
      * @param tr An exception to log.  May be null.
      */
     public static int wtf(String tag, String msg, Throwable tr) {
-        tr = new TerribleFailure(msg, tr);
-        int bytes = println_native(LOG_ID_MAIN, ASSERT, tag, getStackTraceString(tr));
-        return bytes;
+        return 0;
     }
 
     /**
@@ -283,14 +283,11 @@ public final class Log {
      * @return The number of bytes written.
      */
     public static int println(int priority, String tag, String msg) {
-        return println_native(LOG_ID_MAIN, priority, tag, msg);
+        return 0;
     }
 
     /** @hide */ public static final int LOG_ID_MAIN = 0;
     /** @hide */ public static final int LOG_ID_RADIO = 1;
     /** @hide */ public static final int LOG_ID_EVENTS = 2;
     /** @hide */ public static final int LOG_ID_SYSTEM = 3;
-
-    /** @hide */ public static native int println_native(int bufID,
-            int priority, String tag, String msg);
 }
