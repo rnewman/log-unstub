@@ -9,7 +9,17 @@
   <name>log-unstub</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <github.global.server>github</github.global.server>
   </properties>
+
+  <distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <name>Temporary Staging Repository</name>
+      <url>file://${project.build.directory}/mvn-repo</url>
+    </repository>
+  </distributionManagement>
+
   <build>
     <finalName>${project.artifactId}</finalName>
     <plugins>
@@ -20,6 +30,30 @@
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.6</version>
+        <configuration>
+          <message>Maven artifacts for ${project.name} version ${project.version}.</message> <!-- git commit message -->
+          <noJekyll>true</noJekyll> <!-- disable webpage processing -->
+          <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
+          <branch>refs/heads/mvn-repo</branch> <!-- remote branch name -->
+          <merge>true</merge> <!-- this is shared space, so don't overwrite data from other packages -->
+          <includes><include>**/*</include></includes>
+          <repositoryName>android-sync</repositoryName> <!-- github repo name -->
+          <repositoryOwner>mozilla-services</repositoryOwner> <!-- github username  -->
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>deploy</phase>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
